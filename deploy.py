@@ -29,6 +29,7 @@ def init():
         os.system(f'git remote add {remote_name} {remote_url}')
 
         # push the changes to a remote repository
+
         branch_name = str(input('Enter a branch name: '))
         os.system(f'git push {remote_name} {branch_name}')
     except:
@@ -44,6 +45,8 @@ def push():
         # commit the changes with a commit message
         commit_message = str(input('Enter a commit message: '))
         os.system(f'git commit -m "{commit_message}"')
+
+        os.system('git branch -a')
 
         # push the changes to a remote repository
         remote_name = 'origin'
@@ -67,6 +70,9 @@ def control():
     if choice == 1 and flutter == 'y':
         init()
     elif choice == 2 and flutter == 'y':
+        flutterbuild()
+        push()
+    elif choice == 2:
         push()
     elif choice == 3:
         exit()

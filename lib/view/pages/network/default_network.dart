@@ -13,7 +13,8 @@ class _DefaultNetworkUpState extends State<DefaultNetworkUp> {
   late WebSocketChannel channel;
 
   Future connectToWebSocket() async {
-    channel = WebSocketChannel.connect(Uri.parse("ws://localhost:8080"));
+    channel = WebSocketChannel.connect(Uri.parse(
+        "https://kiridharan-fluffy-couscous-xpg9v775r5q39pj9-8080.preview.app.github.dev/"));
 
     // listen to incoming messages
     channel.stream.listen((message) {

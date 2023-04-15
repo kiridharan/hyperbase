@@ -2,6 +2,7 @@ import 'package:blockchain/view/pages/home/home_page.dart';
 import 'package:blockchain/view/pages/login/signup_page.dart';
 import 'package:blockchain/view/pages/navigation/sidebar.dart';
 import 'package:blockchain/view/pages/network/create_network.dart';
+import 'package:blockchain/view/pages/network/network_details/newtwork_deatails.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         "/Home": (context) => const HomePage(),
         "createNetwork": (context) => const CreateNode(),
         "defaultNetwork": (context) => const DefaultNetworkUp(),
+        "individualNetwork": (context) => const NetworkDetails(),
       },
     );
   }

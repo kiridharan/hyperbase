@@ -1,3 +1,4 @@
+import 'package:blockchain/const/constant.dart';
 import 'package:flutter/material.dart';
 
 class ViewCards extends StatelessWidget {
@@ -23,7 +24,7 @@ class ViewCards extends StatelessWidget {
         height: 150,
         padding: const EdgeInsets.all(15.0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: actionColor.withOpacity(0.3),
           borderRadius: BorderRadius.circular(12.5),
           boxShadow: [
             BoxShadow(
@@ -51,7 +52,7 @@ class ViewCards extends StatelessWidget {
               subtitle,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                  color: Colors.grey,
+                  color: Colors.black,
                   fontWeight: FontWeight.normal,
                   fontSize: 12),
             ),

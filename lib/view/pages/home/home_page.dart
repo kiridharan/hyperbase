@@ -1,3 +1,4 @@
+import 'package:blockchain/const/constant.dart';
 import 'package:blockchain/view/components/home/container_card.dart';
 import 'package:blockchain/view/pages/individualnode/individual_node.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,21 @@ class _HomePageState extends State<HomePage> {
     // final height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey.shade200.withOpacity(.1),
+        // bottomNavigationBar: ,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          // title: const Text("HyperBASE"),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Get.to(() => const IndividualNode());
+              },
+              icon: const Icon(Icons.add),
+            )
+          ],
+        ),
+        backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -97,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                     width: width,
                     height: 300,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: actionColor.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     // ListView for showing all running nodes

@@ -48,7 +48,7 @@ class NetworkInfoCard extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              name.substring(0, 7).replaceAll("-", " "),
+              name.substring(0, 10).replaceAll("-", " "),
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.black,

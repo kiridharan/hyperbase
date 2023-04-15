@@ -41,4 +41,4 @@ TextStyle kLoginOrSignUpTextStyle(
 TextStyle kTextFormFieldStyle() => const TextStyle(color: Colors.black);
 
 const BASE_URL =
-    "https://kiridharan-fluffy-couscous-xpg9v775r5q39pj9-3000.preview.app.github.dev";
+    "https://kiridharan-humble-invention-rx6wjq466xhpp5x-3000.preview.app.github.dev";

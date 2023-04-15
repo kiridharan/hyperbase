@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 
 class CardFb1 extends StatelessWidget {
   final String text;
-
+  final IconData icon;
   final String subtitle;
   final Function() onPressed;
 
-  const CardFb1(
-      {required this.text,
-      required this.subtitle,
-      required this.onPressed,
-      Key? key})
-      : super(key: key);
+  const CardFb1({
+    required this.text,
+    required this.icon,
+    required this.subtitle,
+    required this.onPressed,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +36,8 @@ class CardFb1 extends StatelessWidget {
         ),
         child: Column(
           children: [
-            const Icon(
-              Icons.add_circle_outline,
+            Icon(
+              icon,
               color: primaryColor,
               size: 56,
             ),

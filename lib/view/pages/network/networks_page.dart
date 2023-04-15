@@ -3,9 +3,11 @@ import 'package:blockchain/const/constant.dart';
 import 'package:blockchain/model/network/cluster_details.dart';
 import 'package:blockchain/view/components/network/create_card.dart';
 import 'package:blockchain/view/components/network/network_info_card.dart';
+import 'package:blockchain/view/pages/network/choose_network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkPage extends StatefulWidget {
@@ -59,24 +61,7 @@ class _NetworkPageState extends State<NetworkPage> {
                   ),
                   onPressed: () {
                     // dialog for creating default network
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            elevation: 0,
-                            backgroundColor: Colors.transparent,
-                            child: CardFb1(
-                              text: 'Create Default Network',
-                              subtitle: 'Create a default network',
-                              onPressed: () {
-                                Navigator.pushNamed(context, "createNetwork");
-                              },
-                            ));
-                      },
-                    );
+                    Get.to(() => const ChooseNetwork());
                   },
                   icon: const FaIcon(FontAwesomeIcons.plus,
                       color: Colors.white, size: 16),
@@ -103,11 +88,11 @@ class _NetworkPageState extends State<NetworkPage> {
                     print(testNetworkItems);
                     return testNetworkItems.isEmpty || testNetworkItems.isEmpty
                         ? CardFb1(
+                            icon: Icons.add_circle_outline,
                             text: "No network ..\n Create default Network",
                             subtitle: "This Node \n #3 ordered \n #3 org  ",
                             onPressed: () async {
-                              final response = await http
-                                  .get(Uri.parse('$BASE_URL/defaultNetwork'));
+                              Get.to(() => const ChooseNetwork());
                             })
                         : GridView.builder(
                             gridDelegate:

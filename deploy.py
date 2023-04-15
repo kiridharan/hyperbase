@@ -2,7 +2,9 @@ import os
 
 # set the working directory
 
-os.system('flutter build web')
+
+def flutterbuild():
+    os.system('flutter build web')
 
 
 def init():
@@ -52,13 +54,19 @@ def push():
 
 
 def control():
+    print('Welcome to the deploy script')
+
+    print('What do you want to do?')
     print('1. Initialize a new repository')
     print('2. Push to an existing repository')
     print('3. Exit')
     choice = int(input('Enter your choice: '))
-    if choice == 1:
+    print("Want to add flutter build web? Type y")
+    flutter = input()
+
+    if choice == 1 and flutter == 'y':
         init()
-    elif choice == 2:
+    elif choice == 2 and flutter == 'y':
         push()
     elif choice == 3:
         exit()

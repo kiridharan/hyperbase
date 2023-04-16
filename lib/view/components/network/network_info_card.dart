@@ -1,7 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:blockchain/helper/local.dart';
 import 'package:flutter/material.dart';
 
-class NetworkInfoCard extends StatelessWidget {
+class NetworkInfoCard extends StatefulWidget {
   final String name;
   final String status;
 
@@ -12,9 +13,16 @@ class NetworkInfoCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<NetworkInfoCard> createState() => _NetworkInfoCardState();
+}
+
+class _NetworkInfoCardState extends State<NetworkInfoCard> {
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        LocalHelper localHelper = LocalHelper();
+        localHelper.setAll(true, widget.name, widget.name);
         Navigator.pushNamed(context, "individualNetwork");
       },
       child: Container(
@@ -38,7 +46,7 @@ class NetworkInfoCard extends StatelessWidget {
               radius: 30,
               backgroundColor: Colors.white,
               child: Text(
-                name.substring(0, 3),
+                widget.name.substring(0, 1),
                 style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -48,7 +56,11 @@ class NetworkInfoCard extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              name.substring(0, 10).replaceAll("-", " "),
+              widget.name.length > 15
+                  ? widget.name
+                      .substring(0, widget.name.length - 17)
+                      .replaceAll("-", " ")
+                  : widget.name,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.black,
@@ -60,7 +72,7 @@ class NetworkInfoCard extends StatelessWidget {
               height: 5,
             ),
             Text(
-              status,
+              widget.status,
               textAlign: TextAlign.center,
               style: const TextStyle(
                   color: Colors.black,

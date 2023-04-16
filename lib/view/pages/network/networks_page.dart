@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:blockchain/const/constant.dart';
+import 'package:blockchain/helper/filter.dart';
+import 'package:blockchain/helper/local.dart';
 import 'package:blockchain/model/network/cluster_details.dart';
 import 'package:blockchain/view/components/network/create_card.dart';
 import 'package:blockchain/view/components/network/network_info_card.dart';
@@ -19,11 +21,26 @@ class NetworkPage extends StatefulWidget {
 
 class _NetworkPageState extends State<NetworkPage> {
   late Future<ResponseData> futureResponseData;
+  LocalHelper localHelper = LocalHelper();
+  Filter filter = Filter();
+  String? org = "";
+  String? namespace = "";
+  bool? isNetwork = false;
+
+  getOrg() async {
+    org = await localHelper.getOrg();
+    namespace = await localHelper.getNamespace();
+    isNetwork = await localHelper.getIsNetwork();
+    print("org: $org");
+    print("namespace: $namespace");
+    print("isNetwork: $isNetwork");
+  }
 
   @override
   void initState() {
     super.initState();
     futureResponseData = fetchResponseData();
+    getOrg();
   }
 
   @override
@@ -81,12 +98,33 @@ class _NetworkPageState extends State<NetworkPage> {
                 future: futureResponseData,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    final testNetworkItems = snapshot.data!.stdout.where(
-                      (item) => item.namespace.contains('hyperbase'),
-                    );
+                    final testNetworkItems = snapshot.data!.stdout;
 
-                    print(testNetworkItems);
-                    return testNetworkItems.isEmpty || testNetworkItems.isEmpty
+                    Set set = {};
+                    for (var element in testNetworkItems) {
+                      set.add(element.namespace);
+                    }
+                    // print(set.length);
+                    set.remove("ingress-nginx");
+                    set.remove("kube-system");
+                    set.remove("cert-manager");
+                    set.remove("local-path-storage");
+
+                    // print(set.length);
+                    // final ca = filter.getNetork(snapshot.data!, "hyperbase");
+                    // var network = filter.getNetork(snapshot, org!);
+                    // // print(testNetworkItems);
+                    // org = filter.getNetork(snapshot, "hyperbase");
+                    // print(org);
+                    // print(network);
+
+                    // var data = filter.getfilter(snapshot);
+                    // org = filter.getNetork(snapshot, "hyperbase");
+                    // print(network);
+                    // print(filter.getfilter(snapshot));
+                    // print(isNetwork);
+
+                    return set.isEmpty
                         ? CardFb1(
                             icon: Icons.add_circle_outline,
                             text: "No network ..\n Create default Network",
@@ -101,12 +139,12 @@ class _NetworkPageState extends State<NetworkPage> {
                               crossAxisSpacing: 16,
                               mainAxisSpacing: 16,
                             ),
-                            itemCount: testNetworkItems.length,
+                            itemCount: set.length,
                             itemBuilder: (context, index) {
+                              // print(network);
                               return NetworkInfoCard(
-                                name: testNetworkItems.elementAt(index).name,
-                                status:
-                                    testNetworkItems.elementAt(index).status,
+                                name: set.elementAt(index),
+                                status: "Running",
                               );
                             },
                           );
@@ -147,4 +185,9 @@ class _NetworkPageState extends State<NetworkPage> {
       throw Exception('Failed to load response data');
     }
   }
+  // @override
+  // void dispose() {
+  //   fetchResponseData();
+  //   super.dispose();
+  // }
 }

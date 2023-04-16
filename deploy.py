@@ -1,62 +1,69 @@
+'''
+deploy.py
+'''
 import os
-
-# set the working directory
 
 
 def flutterbuild():
+    """
+    flutter build web
+    """
     os.system('flutter build web')
 
 
 def init():
-
+    '''
+    Initialize a new git repository
+    '''
     # take current directory as path
-    path = os.getcwd()
+    # path = os.getcwd()
 
-    try:
-        # initialize a new git repository
-        os.system('git init')
+    # initialize a new git repository
+    os.system('git init')
 
-        # add all files to the repository
-        os.system('git add .')
+    # add all files to the repository
+    os.system('git add .')
 
-        # commit the changes with a commit message
-        commit_message = str(input('Enter a commit message: '))
-        os.system(f'git commit -m "{commit_message}"')
+    # commit the changes with a commit message
+    commit_message = str(input('Enter a commit message: '))
+    os.system(f'git commit -m "{commit_message}"')
 
-        # add a remote repository
-        remote_name = 'origin'
-        remote_url = str(input('Enter a remote url: '))
-        os.system(f'git remote add {remote_name} {remote_url}')
+    # add a remote repository
+    remote_name = 'origin'
+    remote_url = str(input('Enter a remote url: '))
+    os.system(f'git remote add {remote_name} {remote_url}')
 
-        # push the changes to a remote repository
+    # push the changes to a remote repository
 
-        branch_name = str(input('Enter a branch name: '))
-        os.system(f'git push {remote_name} {branch_name}')
-    except:
-        print('Error')
+    branch_name = str(input('Enter a branch name: '))
+    os.system(f'git push {remote_name} {branch_name}')
 
 
 def push():
-    try:
+    '''
+    push to an existing git repository
 
-        # add all files to the repository
-        os.system('git add .')
+    '''
 
-        # commit the changes with a commit message
-        commit_message = str(input('Enter a commit message: '))
-        os.system(f'git commit -m "{commit_message}"')
+    # add all files to the repository
+    os.system('git add .')
 
-        os.system('git branch -a')
+    # commit the changes with a commit message
+    commit_message = str(input('Enter a commit message: '))
+    os.system(f'git commit -m "{commit_message}"')
 
-        # push the changes to a remote repository
-        remote_name = 'origin'
-        branch_name = str(input('Enter a branch name: '))
-        os.system(f'git push {remote_name} {branch_name}')
-    except:
-        print('Error')
+    os.system('git branch -a')
+
+    # push the changes to a remote repository
+    remote_name = 'origin'
+    branch_name = str(input('Enter a branch name: '))
+    os.system(f'git push {remote_name} {branch_name}')
 
 
 def control():
+    '''
+    control the flow of the program
+    '''
     print('Welcome to the deploy script')
 
     print('What do you want to do?')
@@ -75,7 +82,7 @@ def control():
     elif choice == 2:
         push()
     elif choice == 3:
-        exit()
+        os.sys.exit()
     else:
         print('Invalid choice')
         control()

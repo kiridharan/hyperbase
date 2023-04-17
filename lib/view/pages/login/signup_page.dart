@@ -1,6 +1,9 @@
 import 'package:blockchain/const/constant.dart';
+import 'package:blockchain/controller/login/auth_service.dart';
 import 'package:blockchain/controller/login/signup_controllet.dart';
+import 'package:blockchain/helper/local.dart';
 import 'package:blockchain/view/pages/login/login_page.dart';
+import 'package:blockchain/view/pages/navigation/sidebar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -18,18 +21,52 @@ class _SignUpViewState extends State<SignUpView> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  LocalHelper localHelper = LocalHelper();
+  var page = true;
+
+  signup() async {
+    var id = await authService.register(
+        nameController.text, emailController.text, passwordController.text);
+    return id;
+  }
+
+  isLogin() async {
+    String isLogin = await localHelper.getOrgNet("isLogin");
+    // String isId = localHelper.getOrgNet("ID");
+    print("isLogin: $isLogin");
+    // print("isLogin: ${isLogin.isEmpty} 1stt");
+    // print(isId);
+    if (isLogin.contains("true") == false) {
+      // print("isLogin: $isLogin loooo");
+      // print("isLogin: $isLogin loooo");
+      Get.to(() => const SignUpView());
+      return page;
+    } else {
+      // print("isLogin: $isLogin")
+      Get.to(() => const SideBar());
+      return false;
+    }
+  }
 
   final _formKey = GlobalKey<FormState>();
+  AuthService authService = AuthService();
+  // write function related to login here
+  late SimpleUIController simpleUIController;
+  @override
+  void initState() {
+    isLogin();
+    simpleUIController = Get.put(SimpleUIController());
+    super.initState();
+  }
 
   @override
   void dispose() {
+    // simpleUIController.dispose();
     nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
-
-  SimpleUIController simpleUIController = Get.put(SimpleUIController());
 
   @override
   Widget build(BuildContext context) {
@@ -259,7 +296,7 @@ class _SignUpViewState extends State<SignUpView> {
                       style: kHaveAnAccountStyle(size),
                       children: [
                         TextSpan(
-                            text: " Login",
+                            text: "Login",
                             style: kLoginOrSignUpTextStyle(size)),
                       ],
                     ),
@@ -291,6 +328,41 @@ class _SignUpViewState extends State<SignUpView> {
           // Validate returns true if the form is valid, or false otherwise.
           if (_formKey.currentState!.validate()) {
             // ... Navigate To your Home Page
+            print('name: ${nameController.text}');
+            print('email: ${emailController.text}');
+            print('password: ${passwordController.text}');
+            var id = signup();
+            String strID = "";
+            String str = id.then((value) => {
+                  strID = value
+                      .toString()
+                      .replaceAll("User with ID ", "")
+                      .replaceAll(" successfully registered", ""),
+                  // setState(() {
+                  //   if (strID.contains("hyperbase") == true) {
+                  //     showDialog(
+                  //       context: context,
+                  //       builder: (context) => AlertDialog(
+                  //         title: const Text('Registration Successful'),
+                  //         content: Text('Your ID is $strID!'),
+                  //         actions: [
+                  //           const Text("Save it somewhere"),
+                  //           TextButton(
+                  //               onPressed: () {
+                  //                 Navigator.pop(context);
+                  //                 Get.to(() => const SideBar());
+                  //               },
+                  //               child: const Text('OK'))
+                  //         ],
+                  //       ),
+                  //     );
+                  //   }
+                  // })
+                });
+
+            // .toString()
+            // .replaceAll("User with ID ", "")
+            // .replaceAll(" successfully registered", "");
           }
         },
         child: const Text('Sign up'),

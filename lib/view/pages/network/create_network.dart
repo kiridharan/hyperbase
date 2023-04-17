@@ -13,14 +13,29 @@ class CreateNode extends StatefulWidget {
 
 class _CreateNodeState extends State<CreateNode> {
   final _formKey = GlobalKey<FormState>();
+
   // SharedPreferences prefs = Get.find<SharedPreferences>();
   final TextEditingController _org = TextEditingController();
   LocalHelper localHelper = LocalHelper();
-
+  String ID = " ";
   final TextEditingController _namespace = TextEditingController();
   // final TextEditingController _channel = TextEditingController();
   // final TextEditingController _chaincodename = TextEditingController();
   // final TextEditingController _path = TextEditingController();
+  sretID() async {
+    ID = await localHelper.getOrgNet("ID");
+    // print(ID);
+  }
+
+  void updateorgDetails(String org, String net, String id) async {
+    final respone =
+        await http.post(Uri.parse('$LOGIN_URL/updateorgDetails'), body: {
+      "ID": id,
+      "networkName": net,
+      "orgName": org,
+    });
+    print("response: $respone");
+  }
 
   void createOrg() async {
     // print("org: ${_org.text}");
@@ -50,6 +65,7 @@ class _CreateNodeState extends State<CreateNode> {
 
   @override
   void initState() {
+    sretID();
     super.initState();
     // createOrg();
   }
@@ -103,6 +119,7 @@ class _CreateNodeState extends State<CreateNode> {
                         setState(() {
                           localHelper.storeOrgNet(_namespace.text, _org.text);
                           createOrg();
+                          updateorgDetails(_org.text, _namespace.text, ID);
                         });
                       }
 

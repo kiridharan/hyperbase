@@ -93,7 +93,7 @@ class _PopupDialogState extends State<PopupDialog> {
         ElevatedButton(
           child: const Text('Save'),
           onPressed: () async {
-            print("$org $selectedValue ${textEditingController.text}");
+            // print("$org $selectedValue ${textEditingController.text}");
             final response =
                 await http.post(Uri.parse('$BASE_URL/createChannel'), body: {
               "ORG_CHANNEL": textEditingController.text,
@@ -101,8 +101,8 @@ class _PopupDialogState extends State<PopupDialog> {
               "NAMESPACE": selectedValue,
             });
 
-            print("response: ${response.statusCode}");
-            print("response: ${response.body}");
+            // print("response: ${response.statusCode}");
+            // print("response: ${response.body}");
             // print("response: ${response.r}")
             if (response.statusCode == 200) {
               print("channel created");

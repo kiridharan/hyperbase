@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:blockchain/const/constant.dart';
+import 'package:blockchain/controller/login/auth_service.dart';
 import 'package:blockchain/helper/filter.dart';
 import 'package:blockchain/helper/local.dart';
 import 'package:blockchain/model/network/cluster_details.dart';
 import 'package:blockchain/view/components/network/create_card.dart';
 import 'package:blockchain/view/components/network/network_info_card.dart';
+import 'package:blockchain/view/pages/login/login_page.dart';
 import 'package:blockchain/view/pages/network/choose_network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -22,23 +24,36 @@ class NetworkPage extends StatefulWidget {
 class _NetworkPageState extends State<NetworkPage> {
   late Future<ResponseData> futureResponseData;
   LocalHelper localHelper = LocalHelper();
+  AuthService authService = AuthService();
   Filter filter = Filter();
   String? org = "";
   String? namespace = "";
   bool? isNetwork = false;
+  String ID = "";
+  setquery() async {
+    var str = await authService.queryUser("hyperbase_adhavan_5");
+    print(str.keys.first);
+    ID = str[str.keys.first];
+    print("${ID}ID");
+    localHelper.storeOrgNet("ID", ID);
+    return str;
+  }
 
   getOrg() async {
     org = await localHelper.getOrg();
     namespace = await localHelper.getNamespace();
     isNetwork = await localHelper.getIsNetwork();
+
     // print("org: $org");
     // print("namespace: $namespace");
+
     // print("isNetwork: $isNetwork");
   }
 
   @override
   void initState() {
     super.initState();
+    setquery();
     futureResponseData = fetchResponseData();
     getOrg();
   }
@@ -95,6 +110,24 @@ class _NetworkPageState extends State<NetworkPage> {
                             child: Text('Add New Network'),
                           ),
                         ),
+                  IconButton(
+                    onPressed: () {
+                      // dialog for creating default network
+                      setState(() {
+                        print("logout");
+                        localHelper.storeOrgNet("AccessToken", "");
+                        localHelper.storeOrgNet("isLogin", "false");
+                        localHelper.delKey("ID");
+                        localHelper.delKey("ID");
+                        Get.to(() => const LoginView());
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.logout,
+                      color: Colors.red,
+                      size: 16,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -119,20 +152,6 @@ class _NetworkPageState extends State<NetworkPage> {
                     set.remove("cert-manager");
                     set.remove("local-path-storage");
 
-                    // print(set.length);
-                    // final ca = filter.getNetork(snapshot.data!, "hyperbase");
-                    // var network = filter.getNetork(snapshot, org!);
-                    // // print(testNetworkItems);
-                    // org = filter.getNetork(snapshot, "hyperbase");
-                    // print(org);
-                    // print(network);
-
-                    // var data = filter.getfilter(snapshot);
-                    // org = filter.getNetork(snapshot, "hyperbase");
-                    // print(network);
-                    // print(filter.getfilter(snapshot));
-                    // print(isNetwork);
-
                     return set.isEmpty
                         ? CardFb1(
                             icon: Icons.add_circle_outline,
@@ -152,6 +171,7 @@ class _NetworkPageState extends State<NetworkPage> {
                             itemBuilder: (context, index) {
                               // print(network);
                               return NetworkInfoCard(
+                                // namespace: set.elementAt(index),
                                 name: set.elementAt(index),
                                 status: "Running",
                               );

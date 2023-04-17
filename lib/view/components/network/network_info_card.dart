@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:blockchain/helper/local.dart';
+import 'package:blockchain/view/pages/network/network_details/newtwork_deatails.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class NetworkInfoCard extends StatefulWidget {
   final String name;
@@ -23,7 +25,8 @@ class _NetworkInfoCardState extends State<NetworkInfoCard> {
       onTap: () {
         LocalHelper localHelper = LocalHelper();
         localHelper.setAll(true, widget.name, widget.name);
-        Navigator.pushNamed(context, "individualNetwork");
+        // Navigator.pushNamed(context, "individualNetwork");
+        Get.to(() => const NetworkDetails());
       },
       child: Container(
         width: MediaQuery.of(context).size.width / 2.5,

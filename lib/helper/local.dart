@@ -32,6 +32,17 @@ class LocalHelper {
     prefs.setString("namespace", namespace);
   }
 
+  getAll() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var isNetwork = prefs.getBool("isNetwork");
+    var org = prefs.getString("org");
+    var namespace = prefs.getString("namespace");
+    // print("org: $org");
+    // print("namespace: $namespace");
+    // print("isNetwork: $isNetwork");
+    return [isNetwork, org, namespace];
+  }
+
   storeOrgNet(String org, String network) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     // print("org: $org");
@@ -44,5 +55,12 @@ class LocalHelper {
     var org = prefs.getString(network);
     // print("org: $org 99");
     return org.toString();
+  }
+
+  delKey(String id) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(id);
+
+    // return key.toString();
   }
 }

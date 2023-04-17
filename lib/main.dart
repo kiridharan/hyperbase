@@ -21,16 +21,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',
+      initialRoute: '/signup',
       home: const SideBar(),
       routes: {
-        "": (context) => const SideBar(),
+        "/side": (context) => const SideBar(),
+        // "": (context) => const Nav(),
         "/login": (context) => const LoginView(),
         "/signup": (context) => const SignUpView(),
         "/Home": (context) => const HomePage(),
-        "createNetwork": (context) => const CreateNode(),
-        "defaultNetwork": (context) => const DefaultNetworkUp(),
-        "individualNetwork": (context) => const NetworkDetails(),
+        "/createNetwork": (context) => const CreateNode(),
+        "/defaultNetwork": (context) => const DefaultNetworkUp(),
+        "/individualNetwork": (context) => const NetworkDetails(),
       },
     );
   }

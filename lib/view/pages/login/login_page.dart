@@ -1,5 +1,8 @@
 import 'package:blockchain/const/constant.dart';
+import 'package:blockchain/controller/login/auth_service.dart';
 import 'package:blockchain/controller/login/signup_controllet.dart';
+import 'package:blockchain/helper/local.dart';
+import 'package:blockchain/view/pages/login/signup_page.dart';
 import 'package:blockchain/view/pages/navigation/sidebar.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +18,8 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  // TextEditingController emailController = TextEditingController();
+  AuthService authService = AuthService();
   TextEditingController passwordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
@@ -23,7 +27,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   void dispose() {
     nameController.dispose();
-    emailController.dispose();
+    // emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -249,10 +253,11 @@ class _LoginViewState extends State<LoginView> {
                   onTap: () {
                     // Navigator.pop(context);
                     nameController.clear();
-                    emailController.clear();
+                    // emailController.clear();
                     passwordController.clear();
                     _formKey.currentState?.reset();
                     simpleUIController.isObscure.value = true;
+                    Get.to(() => const SignUpView());
                   },
                   child: RichText(
                     text: TextSpan(
@@ -292,7 +297,16 @@ class _LoginViewState extends State<LoginView> {
           ),
         ),
         onPressed: () {
+          // Get.to(() => const SideBar());
+          // print(nameController.text);
+          // print(passwordController.text);
+          var data =
+              authService.login(nameController.text, passwordController.text);
+          LocalHelper localHelper = LocalHelper();
+          localHelper.storeOrgNet("ID", nameController.text);
+          localHelper.storeOrgNet("isLogin", "true");
           Get.to(() => const SideBar());
+          print(data);
           // Validate returns true if the form is valid, or false otherwise.
           // if (_formKey.currentState!.validate()) {
           //   // ... Navigate To your Home Page

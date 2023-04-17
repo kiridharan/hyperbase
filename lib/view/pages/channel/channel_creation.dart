@@ -124,7 +124,7 @@ class _ChannelCreationState extends State<ChannelCreation> {
                     image:
                         "https://static.thenounproject.com/png/37814-200.png",
                     onTap: () {
-                      Get.to(() => const CodeEdit());
+                      Get.to(() => const SmartContractListPage());
                     },
                     selected: false,
                   ),

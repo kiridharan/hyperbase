@@ -5,12 +5,14 @@ class ListViewCustom extends StatelessWidget {
   final String namespace;
   final String status;
   final Color actionColor;
+  final Widget widget;
   const ListViewCustom({
     super.key,
     required this.name,
     required this.namespace,
     required this.status,
     required this.actionColor,
+    required this.widget,
   });
 
   @override
@@ -57,6 +59,7 @@ class ListViewCustom extends StatelessWidget {
               ),
             ),
           ),
+          Expanded(child: widget),
           // Expanded(
           //   flex: 2,
           //   child: Padding(

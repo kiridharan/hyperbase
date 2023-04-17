@@ -31,9 +31,9 @@ class _NetworkPageState extends State<NetworkPage> {
     org = await localHelper.getOrg();
     namespace = await localHelper.getNamespace();
     isNetwork = await localHelper.getIsNetwork();
-    print("org: $org");
-    print("namespace: $namespace");
-    print("isNetwork: $isNetwork");
+    // print("org: $org");
+    // print("namespace: $namespace");
+    // print("isNetwork: $isNetwork");
   }
 
   @override
@@ -45,6 +45,7 @@ class _NetworkPageState extends State<NetworkPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
     return SingleChildScrollView(
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -61,33 +62,41 @@ class _NetworkPageState extends State<NetworkPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Row(
-              children: [
-                const Text(
-                  'Network Information',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                const Spacer(),
-                TextButton.icon(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+            Expanded(
+              child: Row(
+                children: [
+                  Text(
+                    'Network Information',
+                    style: TextStyle(
+                      fontSize: isSmallScreen ? 16 : 24,
+                      fontWeight: FontWeight.bold,
                     ),
-                    backgroundColor: primaryColor,
                   ),
-                  onPressed: () {
-                    // dialog for creating default network
-                    Get.to(() => const ChooseNetwork());
-                  },
-                  icon: const FaIcon(FontAwesomeIcons.plus,
-                      color: Colors.white, size: 16),
-                  label: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Add New Network'),
-                  ),
-                ),
-              ],
+                  const Spacer(),
+                  isSmallScreen
+                      ? IconButton(
+                          onPressed: () {}, icon: const Icon(Icons.add))
+                      : TextButton.icon(
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            backgroundColor: primaryColor,
+                          ),
+                          onPressed: () {
+                            // dialog for creating default network
+                            Get.to(() => const ChooseNetwork());
+                          },
+                          icon: const FaIcon(FontAwesomeIcons.plus,
+                              color: Colors.white, size: 16),
+                          label: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Add New Network'),
+                          ),
+                        ),
+                ],
+              ),
             ),
             const SizedBox(height: 16),
             SizedBox(

@@ -1,6 +1,5 @@
 import 'package:blockchain/const/constant.dart';
 import 'package:blockchain/view/pages/code/code_edittor_sm.dart';
-import 'package:blockchain/view/pages/home/home_page.dart';
 import 'package:blockchain/view/pages/network/networks_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,9 +15,9 @@ class SideBar extends StatefulWidget {
 
 class _SideBarState extends State<SideBar> {
   final List _pages = [
-    const HomePage(),
+    // const HomePage(),
     const NetworkPage(),
-    const CodeEdit(),
+    const SmartContractListPage(),
   ];
 
   int selectedIndex = 0;
@@ -63,13 +62,13 @@ class _SideBarState extends State<SideBar> {
                   ],
                 ),
                 destinations: const [
-                  NavigationRailDestination(
-                    icon: FaIcon(
-                      FontAwesomeIcons.table,
-                      size: 20,
-                    ),
-                    label: Text('Dashboard'),
-                  ),
+                  // NavigationRailDestination(
+                  //   icon: FaIcon(
+                  //     FontAwesomeIcons.table,
+                  //     size: 20,
+                  //   ),
+                  //   label: Text('Dashboard'),
+                  // ),
                   NavigationRailDestination(
                     icon: FaIcon(
                       FontAwesomeIcons.networkWired,
@@ -173,13 +172,13 @@ class _SideBarState extends State<SideBar> {
                 });
               },
               items: const [
-                BottomNavigationBarItem(
-                  icon: FaIcon(
-                    FontAwesomeIcons.table,
-                    size: 20,
-                  ),
-                  label: 'Dashboard',
-                ),
+                // BottomNavigationBarItem(
+                //   icon: FaIcon(
+                //     FontAwesomeIcons.table,
+                //     size: 20,
+                //   ),
+                //   label: 'Dashboard',
+                // ),
                 BottomNavigationBarItem(
                     icon: FaIcon(
                       FontAwesomeIcons.networkWired,

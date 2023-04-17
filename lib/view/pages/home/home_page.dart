@@ -1,8 +1,6 @@
 import 'package:blockchain/const/constant.dart';
 import 'package:blockchain/view/components/home/container_card.dart';
-import 'package:blockchain/view/pages/individualnode/individual_node.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -45,7 +43,7 @@ class _HomePageState extends State<HomePage> {
           actions: [
             IconButton(
               onPressed: () {
-                Get.to(() => const IndividualNode());
+                // Get.to(() => const IndividualNode());
               },
               icon: const Icon(Icons.add),
             )
@@ -121,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           return ListTile(
                             onTap: () {
-                              Get.to(() => const IndividualNode());
+                              // Get.to(() => const IndividualNode());
                             },
                             leading: Icon(
                               _nodeData[index]["node_status"] == "Active"

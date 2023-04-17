@@ -1,6 +1,8 @@
+import 'package:blockchain/const/constant.dart';
 import 'package:blockchain/helper/local.dart';
 import 'package:blockchain/view/components/common/input_field.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class CreateNode extends StatefulWidget {
   const CreateNode({Key? key}) : super(key: key);
@@ -14,21 +16,38 @@ class _CreateNodeState extends State<CreateNode> {
   // SharedPreferences prefs = Get.find<SharedPreferences>();
   final TextEditingController _org = TextEditingController();
   LocalHelper localHelper = LocalHelper();
+
   final TextEditingController _namespace = TextEditingController();
   // final TextEditingController _channel = TextEditingController();
   // final TextEditingController _chaincodename = TextEditingController();
   // final TextEditingController _path = TextEditingController();
 
-  // void createOrg() async {
-  //   var res1 = http.get(Uri.parse("$BASE_URL/kindinit"));
-  //   final response = await http.post(
-  //     Uri.parse('$BASE_URL/createOrg'),
-  //     body: {
-  //       "ORG_NAME": "$_org.text",
-  //       "NAMESPACE": "$_namespace.text",
-  //     },
-  //   );
-  // }
+  void createOrg() async {
+    // print("org: ${_org.text}");
+    // print("namespace: ${_namespace.text}");
+    // print("entered create org");
+    // var res1 = http.get(Uri.parse("$BASE_URL/kindinit"));
+    // print("res1: $res1");
+    final response = await http.post(
+      Uri.parse('$BASE_URL/createOrg'),
+      body: {
+        "ORG_NAME": _org.text,
+        "NAMESPACE": _namespace.text,
+      },
+    );
+    // print("response: $response");
+    // print("response status code: ${response.statusCode}");
+
+    if (response.statusCode == 200) {
+      localHelper.storeOrgNet(_namespace.text, _org.text);
+      // localHelper.getOrgNet("adhavannet");
+      print("org: ${_org.text}");
+      print("namespace: ${_namespace.text}");
+    } else {
+      // print("org not created");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -82,8 +101,8 @@ class _CreateNodeState extends State<CreateNode> {
 
                       if (mounted) {
                         setState(() {
-                          localHelper.setAll(true, _org.text, _namespace.text);
-                          print("org: ${_org.text}");
+                          localHelper.storeOrgNet(_namespace.text, _org.text);
+                          createOrg();
                         });
                       }
 

@@ -44,5 +44,5 @@ const BASE_URL =
     "https://kiridharan-fuzzy-space-meme-4vpgw55j6w7c5xp6-3000.preview.app.github.dev";
 
 const LOGIN_URL =
-    "https://adhav712-studious-system-g4qj57vqrw296x4-3000.preview.app.github.dev";
+    "https://kiridharan-super-duper-lamp-xpg9v77594xf6pq6-3000.preview.app.github.dev";
     // "https://3000-kiridharan-fabricsample-sj30i8a5sge.ws-us94.gitpod.io";

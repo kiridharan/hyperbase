@@ -14,8 +14,8 @@ class GradientButtonFb4 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 10, bottom: 10),
-      height: 20,
-      width: MediaQuery.of(context).size.width * 0.8,
+      height: 40,
+      width: MediaQuery.of(context).size.width / 2,
       child: DecoratedBox(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(borderRadius),

@@ -1,120 +1,167 @@
-import 'dart:html';
-import 'package:http/http.dart' as http;
+import 'dart:async';
 import 'package:blockchain/const/constant.dart';
-import 'package:blockchain/view/components/common/upload_button.dart';
+import 'package:blockchain/view/components/createnode/textinput_field.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
+import 'package:file_picker/file_picker.dart';
 
-class SmartContractListPage extends StatefulWidget {
-  const SmartContractListPage({super.key});
+class FileUpload extends StatefulWidget {
+  const FileUpload({super.key});
 
   @override
-  _SmartContractListPageState createState() => _SmartContractListPageState();
+  _FileUploadState createState() => _FileUploadState();
 }
 
-class _SmartContractListPageState extends State<SmartContractListPage> {
-  List<dynamic> smartContracts = [];
-  File? _selectedFile;
+class _FileUploadState extends State<FileUpload> {
+  String? _fileName;
+  String? _path;
+  late final String _extension = 'js';
+  bool _loadingPath = false;
+  bool _loadingFile = false;
 
+  smd(org, net, channel, chaincode) async {
+    final request = http.post(
+      Uri.parse('$BASE_URL/deployChaincode'),
+      body: {
+        "ORG_NAME": org,
+        "NAMESPACE": net,
+        "ORG_CHANNEL": channel,
+        "CHAINCODE_NAME": chaincode,
+        // "PATH_TO_CHAINCODE":""
+      },
+    );
+
+// Add string fields to the request body
+  }
+
+  Future<void> _getPath() async {
+    setState(() => _loadingPath = true);
+    try {
+      _path = null;
+      _path = (await getApplicationDocumentsDirectory()).path;
+    } on Exception catch (e) {
+      print('Error: $e');
+    }
+    setState(() => _loadingPath = false);
+  }
+
+  Future<void> _getFile() async {
+    setState(() => _loadingFile = true);
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: [_extension],
+      );
+      if (result != null) {
+        PlatformFile file = result.files.first;
+        _fileName = file.name;
+        _path = file.path;
+      } else {
+        // User canceled the picker
+        _fileName = null;
+        _path = null;
+      }
+    } on Exception catch (e) {
+      print('Error: $e');
+    }
+    setState(() => _loadingFile = !_loadingFile);
+  }
+
+  Future<void> _uploadFile() async {
+    setState(() => _loadingFile = true);
+    try {
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('http://example.com/upload'),
+      );
+      request.files.add(await http.MultipartFile.fromPath(
+        'file',
+        _path!,
+      ));
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        print('File uploaded');
+      } else {
+        print('Error uploading file');
+      }
+    } on Exception catch (e) {
+      print('Error: $e');
+    }
+    setState(() => _loadingFile = false);
+  }
+
+  TextEditingController inputController = TextEditingController();
+  TextEditingController inputController1 = TextEditingController();
+  TextEditingController inputController2 = TextEditingController();
+  TextEditingController inputController3 = TextEditingController();
   @override
   void initState() {
+    inputController = TextEditingController();
+    inputController1 = TextEditingController();
+    inputController2 = TextEditingController();
+    inputController3 = TextEditingController();
     super.initState();
-    // fetchSmartContracts();
+    _getPath();
   }
-
-  // _openFileExplorer() async {
-  //   final result = await FilePicker.platform.pickFiles(
-  //     type: FileType.custom,
-  //     allowedExtensions: ['js'],
-  //   );
-  //   print(result);
-  //   if (result != null) {
-  //     setState(() {
-  //       _selectedFile = File(result.files.single.path!);
-  //     });
-  //   }
-  // }
-  void uploadFile() async {
-    final input = FileUploadInputElement();
-    input.accept = '.js'; // accept only .txt files
-    input.click();
-
-    // wait for user to select file
-    await input.onChange.first;
-    print(input.files!.first.name);
-    print(input.files!.first.size);
-    // print("${input.files!.first.relativePath} ${input.files!.first.type}");
-    // print(input.files!);
-    final selectedFile = input.files!.first;
-  }
-
-// This code creates a FileUploadInputElement and sets it to accept only .txt files. When the user selects a file, it creates a FormData object and appends the selected file to it using the appendBlob() method. It then sends the form data to the server using an HttpRequest object and waits for the response. The response can
-
-  void _uploadToServer() async {
-    if (_selectedFile == null) {
-      return;
-    }
-
-    final request = http.MultipartRequest(
-      'POST',
-      Uri.parse('$BASE_URL/deployChaincode'),
-    );
-
-    request.files.add(
-      await http.MultipartFile.fromPath(
-        'file',
-        _selectedFile!.relativePath!,
-      ),
-    );
-
-    final response = await request.send();
-
-    if (response.statusCode == 200) {
-      print('File uploaded successfully');
-    } else {
-      print('Error uploading file');
-    }
-  }
-
-  // Future<void> fetchSmartContracts() async {
-  //   final response = await http.get(Uri.parse('YOUR_API_ENDPOINT'));
-
-  //   if (response.statusCode == 200) {
-  //     setState(() {
-  //       smartContracts = jsonDecode(response.body);
-  //     });
-  //   } else {
-  //     throw Exception('Failed to load smart contracts');
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0,
         backgroundColor: Colors.white,
-        leading: const Text("Smart Contracts"),
-        actions: [
-          GradientButtonFb4(
-            onPressed: () {
-              uploadFile();
-            },
-            // _uploadFile();
-
-            text: "Upload SMART CONTRACT",
-          )
-        ],
+        elevation: 0,
+        title: const Text('File Upload'),
       ),
-      body: ListView.builder(
-        itemCount: smartContracts.length,
-        itemBuilder: (context, index) {
-          final smartContract = smartContracts[index];
-          return ListTile(
-            title: Text(smartContract['name']),
-            subtitle: Text(smartContract['address']),
-          );
-        },
+      body: Column(
+        children: [
+          EmailInputFb(
+              inputController: inputController,
+              hintText: "enter net",
+              text: "enter net"),
+          EmailInputFb(
+              inputController: inputController1,
+              hintText: "enter channel",
+              text: "enter channel"),
+          EmailInputFb(
+              inputController: inputController2,
+              hintText: "enter sm",
+              text: "enter sm"),
+          EmailInputFb(
+            inputController: inputController3,
+            hintText: "enter org",
+            text: "enter org",
+          ),
+          Text('Selected file: ${_fileName ?? "None"}'),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () {
+              _getPath();
+              smd(
+                inputController3.text,
+                inputController.text,
+                inputController1.text,
+                inputController2.text,
+              );
+            },
+            child: _loadingPath
+                ? const CircularProgressIndicator()
+                : const Text('Upload File'),
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: _loadingFile ? null : _getFile,
+            child: Text('Select ${_extension.toUpperCase()} File'),
+          ),
+          const SizedBox(height: 16),
+          // ElevatedButton(
+          //   style: ElevatedButton.styleFrom(
+          //     backgroundColor: Colors.green,
+          //   ),
+          //   onPressed: (_path != null && !_loadingFile) ? _uploadFile : null,
+          //   child: const Text('Upload File'),
+          // ),
+        ],
       ),
     );
   }

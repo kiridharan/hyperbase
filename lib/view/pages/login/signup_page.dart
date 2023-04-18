@@ -328,9 +328,9 @@ class _SignUpViewState extends State<SignUpView> {
           // Validate returns true if the form is valid, or false otherwise.
           if (_formKey.currentState!.validate()) {
             // ... Navigate To your Home Page
-            print('name: ${nameController.text}');
-            print('email: ${emailController.text}');
-            print('password: ${passwordController.text}');
+            // print('name: ${nameController.text}');
+            // print('email: ${emailController.text}');
+            // print('password: ${passwordController.text}');
             var id = signup();
             String strID = "";
             String str = id.then((value) => {
@@ -338,31 +338,7 @@ class _SignUpViewState extends State<SignUpView> {
                       .toString()
                       .replaceAll("User with ID ", "")
                       .replaceAll(" successfully registered", ""),
-                  // setState(() {
-                  //   if (strID.contains("hyperbase") == true) {
-                  //     showDialog(
-                  //       context: context,
-                  //       builder: (context) => AlertDialog(
-                  //         title: const Text('Registration Successful'),
-                  //         content: Text('Your ID is $strID!'),
-                  //         actions: [
-                  //           const Text("Save it somewhere"),
-                  //           TextButton(
-                  //               onPressed: () {
-                  //                 Navigator.pop(context);
-                  //                 Get.to(() => const SideBar());
-                  //               },
-                  //               child: const Text('OK'))
-                  //         ],
-                  //       ),
-                  //     );
-                  //   }
-                  // })
                 });
-
-            // .toString()
-            // .replaceAll("User with ID ", "")
-            // .replaceAll(" successfully registered", "");
           }
         },
         child: const Text('Sign up'),

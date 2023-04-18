@@ -17,7 +17,7 @@ class _SideBarState extends State<SideBar> {
   final List _pages = [
     // const HomePage(),
     const NetworkPage(),
-    const SmartContractListPage(),
+    const FileUpload(),
   ];
 
   int selectedIndex = 0;

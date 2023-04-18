@@ -42,6 +42,7 @@ dependencies:
   google_fonts: ^4.0.3
   in_app_purchases_paywall_ui: ^0.7.0
   lottie: ^2.2.0
+  path_provider: ^2.0.14
   provider: ^6.0.5
   responsive_builder: ^0.5.1
   shared_preferences: null

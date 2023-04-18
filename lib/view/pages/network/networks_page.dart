@@ -27,14 +27,19 @@ class _NetworkPageState extends State<NetworkPage> {
   AuthService authService = AuthService();
   Filter filter = Filter();
   String? org = "";
+  var str;
   String? namespace = "";
   bool? isNetwork = false;
   String ID = "";
+
   setquery() async {
-    var str = await authService.queryUser("hyperbase_adhavan_5");
-    print(str.keys.first);
+    ID = await localHelper.getOrgNet("ID");
+    // print(ID);
+    str = await authService.queryUser(ID);
+    // print(str["orgDetails"]);
+    // print(str);
     ID = str[str.keys.first];
-    print("${ID}ID");
+    // print("${ID}ID");
     localHelper.storeOrgNet("ID", ID);
     return str;
   }
@@ -53,7 +58,7 @@ class _NetworkPageState extends State<NetworkPage> {
   @override
   void initState() {
     super.initState();
-    setquery();
+    str = setquery();
     futureResponseData = fetchResponseData();
     getOrg();
   }

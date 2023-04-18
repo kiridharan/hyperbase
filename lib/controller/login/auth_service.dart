@@ -24,7 +24,7 @@ class AuthService {
     );
 
     String userId = response.body.toString();
-    print(userId);
+    // print(userId);
     Get.showSnackbar(GetSnackBar(
       title: "User Registered Successfully \n User Id:",
       message: "please note down your user id for future reference",
@@ -54,7 +54,7 @@ class AuthService {
       // print(response.body);
       LocalHelper localHelper = LocalHelper();
       localHelper.storeOrgNet("AccessToken", res.accessToken.toString());
-      print(res.accessToken.toString());
+      // print(res.accessToken.toString());
       return res;
     } else {
       throw Exception('Failed to login user.');

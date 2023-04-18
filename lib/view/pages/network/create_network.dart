@@ -119,6 +119,7 @@ class _CreateNodeState extends State<CreateNode> {
                         setState(() {
                           localHelper.storeOrgNet(_namespace.text, _org.text);
                           createOrg();
+                          print("org: $ID");
                           updateorgDetails(_org.text, _namespace.text, ID);
                         });
                       }
